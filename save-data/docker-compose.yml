@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+    test-database-postgres:
+        image: postgres
+        container_name: test-database-postgres
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=admin
+            - POSTGRES_PASSWORD=admin
+            - POSTGRES_DB=my_db
