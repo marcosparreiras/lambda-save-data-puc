@@ -10,10 +10,11 @@ import { PgSupermarketRepository } from './adapters/pg-supermarket-repository';
 import { PgProductPriceRepository } from './adapters/pg-product-price-repository';
 import { PgProductRepository } from './adapters/pg-product-repository';
 import { PostgresConnection, type PgConnection } from './adapters/pg-connection';
+import { GeoLocationGatewayRegistry } from './application/registry/geo-location-getaway-registry';
+import { GeoLocationGetawayStub } from './test-utils/geo-location-gateway-stub';
+import { AppException } from './exception/app-exception';
 
 export async function lambdaHandler(event: SQSEvent, _context?: Context): Promise<void> {
-    console.log(JSON.parse(event.Records[0].body));
-
     const eventRecordsSchema = z.array(
         z.object({
             body: z.object({
@@ -35,6 +36,9 @@ export async function lambdaHandler(event: SQSEvent, _context?: Context): Promis
 
     try {
         const records = eventRecordsSchema.parse(event.Records.map((record) => ({ body: JSON.parse(record.body) })));
+
+        const geoLocationGateway = new GeoLocationGetawayStub();
+        GeoLocationGatewayRegistry.getInstance().setGeoLocationGetaway(geoLocationGateway);
 
         const dbConnection: PgConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
 
@@ -74,6 +78,10 @@ export async function lambdaHandler(event: SQSEvent, _context?: Context): Promis
     } catch (error: unknown) {
         if (error instanceof ZodError) {
             console.log(error.format());
+            return;
+        }
+        if (error instanceof AppException) {
+            console.log(error.message);
             return;
         }
         console.log(error);

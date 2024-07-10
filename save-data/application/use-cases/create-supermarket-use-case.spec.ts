@@ -2,12 +2,17 @@ import { describe } from '@jest/globals';
 import { SupermarketRepositoryStub } from '../../test-utils/supermarket-repository-stub';
 import { CreateSupermarketUseCase } from './create-supermarket-use-case';
 import { Supermarket } from '../../entities/supermarket';
+import { GeoLocationGatewayRegistry } from '../registry/geo-location-getaway-registry';
+import { GeoLocationGetawayStub } from '../../test-utils/geo-location-gateway-stub';
 
 describe('CreateSupermarketUseCase', () => {
+    let geoLocationGateway: GeoLocationGetawayStub;
     let supermarketRepository: SupermarketRepositoryStub;
     let createSupermarketUseCase: CreateSupermarketUseCase;
 
     beforeEach(() => {
+        geoLocationGateway = new GeoLocationGetawayStub();
+        GeoLocationGatewayRegistry.getInstance().setGeoLocationGetaway(geoLocationGateway);
         supermarketRepository = new SupermarketRepositoryStub();
         createSupermarketUseCase = new CreateSupermarketUseCase(supermarketRepository);
     });

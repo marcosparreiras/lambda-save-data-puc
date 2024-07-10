@@ -1,3 +1,5 @@
+import { GeoLocationGatewayRegistry } from '../application/registry/geo-location-getaway-registry';
+
 export class Supermarket {
     private cnpj: string;
     private name: string;
@@ -33,7 +35,10 @@ export class Supermarket {
         return new Supermarket(data.cnpj, data.name, data.address, data.latitude, data.longitude);
     }
 
-    public static create(data: { cnpj: string; name: string; address: string }) {
-        return new Supermarket(data.cnpj, data.name, data.address, 0, 0);
+    public static async create(data: { cnpj: string; name: string; address: string }) {
+        const geoLocationGateway = GeoLocationGatewayRegistry.getInstance().getGeoLocationGetaway();
+        const { latitude, longitude } = await geoLocationGateway.getGeolocationFromAddress(data.address);
+
+        return new Supermarket(data.cnpj, data.name, data.address, latitude, longitude);
     }
 }
