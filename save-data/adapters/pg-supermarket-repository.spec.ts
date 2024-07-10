@@ -16,6 +16,10 @@ describe('PgSupermarketRepository', () => {
         await pgConnection.query('DELETE FROM supermarkets', []);
     });
 
+    afterAll(async () => {
+        await pgConnection.query('DELETE FROM supermarkets', []);
+    });
+
     it('Should be able to save a new supermaket', async () => {
         expect(1).toEqual(1);
         const supermaket = Supermarket.load({

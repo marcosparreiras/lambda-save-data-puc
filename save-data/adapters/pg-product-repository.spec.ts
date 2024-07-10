@@ -16,6 +16,10 @@ describe('PgProductRepository', () => {
         await pgConnection.query('DELETE FROM products', []);
     });
 
+    afterAll(async () => {
+        await pgConnection.query('DELETE FROM products', []);
+    });
+
     it('Should be able to save a new product', async () => {
         const product = Product.load({ code: '01', name: 'product01' });
 
