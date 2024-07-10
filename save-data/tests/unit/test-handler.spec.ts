@@ -3,7 +3,7 @@ import { lambdaHandler } from '../../app';
 import type { SQSEvent } from 'aws-lambda';
 
 describe('Unit test for app handler', function () {
-    it('verifies successful response', async () => {
+    it.only('verifies successful response', async () => {
         const event: SQSEvent = {
             Records: [
                 {

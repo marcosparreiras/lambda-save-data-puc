@@ -13,9 +13,11 @@ describe('PgProductPriceRepository', () => {
         dbConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
         pgProductPriceRepository = new PgProductPriceRepository(dbConnection);
 
+        await dbConnection.query('DELETE FROM price_history', []);
         await dbConnection.query('DELETE FROM products', []);
-        await dbConnection.query('INSERT INTO products(code, name) VALUES($1, $2)', [productId, 'product01']);
         await dbConnection.query('DELETE FROM supermarkets', []);
+
+        await dbConnection.query('INSERT INTO products(code, name) VALUES($1, $2)', [productId, 'product01']);
         await dbConnection.query(
             'INSERT INTO supermarkets(cnpj, name, address, latitude, longitude) VALUES($1, $2, $3, $4, $5)',
             [supermarketId, 'supermarket01', 'some-address', 0.0, 0.0],
@@ -28,6 +30,8 @@ describe('PgProductPriceRepository', () => {
 
     afterAll(async () => {
         await dbConnection.query('DELETE FROM price_history', []);
+        await dbConnection.query('DELETE FROM products', []);
+        await dbConnection.query('DELETE FROM supermarkets', []);
     });
 
     it('Should be able to register a new product price', async () => {
@@ -68,7 +72,10 @@ describe('PgProductPriceRepository', () => {
             productId,
         });
 
-        const result01 = await pgProductPriceRepository.existsByNfeId(productPrice.getNfeId());
+        const result01 = await pgProductPriceRepository.existsByNfeIdAndProductsId(
+            productPrice.getNfeId(),
+            productPrice.getProductId(),
+        );
         expect(result01).toEqual(false);
 
         await dbConnection.query(
@@ -83,7 +90,10 @@ describe('PgProductPriceRepository', () => {
             ],
         );
 
-        const result02 = await pgProductPriceRepository.existsByNfeId(productPrice.getNfeId());
+        const result02 = await pgProductPriceRepository.existsByNfeIdAndProductsId(
+            productPrice.getNfeId(),
+            productPrice.getProductId(),
+        );
         expect(result02).toEqual(true);
     });
 });

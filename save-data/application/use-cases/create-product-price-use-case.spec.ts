@@ -3,7 +3,7 @@ import { CreateProductPriceUseCase } from './create-product-price-use-case';
 import { ProductPriceRepositoryStub } from '../../test-utils/product-price-repository-stub';
 import { ProductPrice } from '../../entities/product-price';
 
-describe('CreateProductPriceUseCaseProductPriceUseCase', () => {
+describe('createProductPriceUseCase', () => {
     let productPriceRepository: ProductPriceRepositoryStub;
     let createProductPriceUseCase: CreateProductPriceUseCase;
 
@@ -32,10 +32,10 @@ describe('CreateProductPriceUseCaseProductPriceUseCase', () => {
         );
     });
 
-    it('Should not be able to save a product if a nfe is already registered', async () => {
+    it('Should not be able to save a product if a product with the same nfe is already registered', async () => {
         const nfeId = '01';
         productPriceRepository.items.push(
-            ProductPrice.create({ nfeId, price: 55.89, date: new Date(), productId: '02', supermarketId: '02' }),
+            ProductPrice.create({ nfeId, price: 55.89, date: new Date(), productId: '01', supermarketId: '02' }),
         );
 
         const input = {

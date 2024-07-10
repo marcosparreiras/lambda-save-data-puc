@@ -1,14 +1,15 @@
 import { SQSEvent, Context } from 'aws-lambda';
 import { z, ZodError } from 'zod';
-import { SupermarketRepositoryStub } from './test-utils/supermarket-repository-stub';
 import type { SupermarketRepository } from './application/bondaries/supermarket-respository';
 import type { ProductRepository } from './application/bondaries/product-repository';
 import type { ProductPriceRepository } from './application/bondaries/product-price-repository';
-import { ProductRepositoryStub } from './test-utils/product-repository-stub';
-import { ProductPriceRepositoryStub } from './test-utils/product-price-repository-stub';
 import { CreateSupermarketUseCase } from './application/use-cases/create-supermarket-use-case';
 import { CreateProductUseCase } from './application/use-cases/create-product-use-case';
 import { CreateProductPriceUseCase } from './application/use-cases/create-product-price-use-case';
+import { PgSupermarketRepository } from './adapters/pg-supermarket-repository';
+import { PgProductPriceRepository } from './adapters/pg-product-price-repository';
+import { PgProductRepository } from './adapters/pg-product-repository';
+import { PostgresConnection, type PgConnection } from './adapters/pg-connection';
 
 export async function lambdaHandler(event: SQSEvent, _context?: Context): Promise<void> {
     console.log(JSON.parse(event.Records[0].body));
@@ -35,9 +36,11 @@ export async function lambdaHandler(event: SQSEvent, _context?: Context): Promis
     try {
         const records = eventRecordsSchema.parse(event.Records.map((record) => ({ body: JSON.parse(record.body) })));
 
-        const supermarketRepository: SupermarketRepository = new SupermarketRepositoryStub();
-        const productRepository: ProductRepository = new ProductRepositoryStub();
-        const productPriceRepository: ProductPriceRepository = new ProductPriceRepositoryStub();
+        const dbConnection: PgConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
+
+        const supermarketRepository: SupermarketRepository = new PgSupermarketRepository(dbConnection);
+        const productRepository: ProductRepository = new PgProductRepository(dbConnection);
+        const productPriceRepository: ProductPriceRepository = new PgProductPriceRepository(dbConnection);
 
         const createSupermarketUseCase = new CreateSupermarketUseCase(supermarketRepository);
         const createProductUseCase = new CreateProductUseCase(productRepository);

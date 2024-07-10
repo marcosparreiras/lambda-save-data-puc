@@ -20,6 +20,6 @@ CREATE TABLE IF NOT EXISTS price_history (
   supermarket_id TEXT NOT NULL,
   product_id TEXT NOT NULL,
 
-  CONSTRAINT fk_supermarket FOREIGN KEY (supermarket_id) REFERENCES supermarkets (cnpj),
-  CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products (code)
+  CONSTRAINT fk_supermarket FOREIGN KEY (supermarket_id) REFERENCES supermarkets (cnpj) ON DELETE CASCADE,
+  CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products (code) ON DELETE CASCADE
 );

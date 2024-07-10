@@ -13,8 +13,11 @@ export class CreateProductPriceUseCase {
     public constructor(readonly productPriceRepository: ProductPriceRepository) {}
 
     public async execute({ nfeId, productId, supermarketId, price, date }: Input): Promise<void> {
-        const nfeAlreadyRegistered = await this.productPriceRepository.existsByNfeId(nfeId);
-        if (nfeAlreadyRegistered) {
+        const productOfNFEAlreadyExists = await this.productPriceRepository.existsByNfeIdAndProductsId(
+            nfeId,
+            productId,
+        );
+        if (productOfNFEAlreadyExists) {
             return;
         }
         const productPrice = ProductPrice.create({ nfeId, price, date, supermarketId, productId });

@@ -7,9 +7,13 @@ describe('PgSupermarketRepository', () => {
     let pgConnection: PostgresConnection;
     let pgSupermarketRepository: PgSupermarketRepository;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         pgConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
         pgSupermarketRepository = new PgSupermarketRepository(pgConnection);
+
+        await pgConnection.query('DELETE FROM price_history', []);
+        await pgConnection.query('DELETE FROM products', []);
+        await pgConnection.query('DELETE FROM supermarkets', []);
     });
 
     beforeEach(async () => {
@@ -17,6 +21,8 @@ describe('PgSupermarketRepository', () => {
     });
 
     afterAll(async () => {
+        await pgConnection.query('DELETE FROM price_history', []);
+        await pgConnection.query('DELETE FROM products', []);
         await pgConnection.query('DELETE FROM supermarkets', []);
     });
 

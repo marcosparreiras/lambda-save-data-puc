@@ -8,8 +8,8 @@ export class ProductPriceRepositoryStub implements ProductPriceRepository {
         this.items.push(productPrice);
     }
 
-    async existsByNfeId(nfeId: string): Promise<boolean> {
-        const nfeExists = this.items.find((item) => item.getNfeId() === nfeId);
+    async existsByNfeIdAndProductsId(nfeId: string, productId: string): Promise<boolean> {
+        const nfeExists = this.items.find((item) => item.getNfeId() === nfeId && item.getProductId() === productId);
         return nfeExists ? true : false;
     }
 }

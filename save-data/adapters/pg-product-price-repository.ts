@@ -5,10 +5,11 @@ import type { PgConnection } from './pg-connection';
 export class PgProductPriceRepository implements ProductPriceRepository {
     public constructor(readonly dbConnection: PgConnection) {}
 
-    async existsByNfeId(nfeId: string): Promise<boolean> {
-        const queryResult = await this.dbConnection.query('SELECT nfe_id FROM price_history WHERE nfe_id = $1', [
-            nfeId,
-        ]);
+    async existsByNfeIdAndProductsId(nfeId: string, productId: string): Promise<boolean> {
+        const queryResult = await this.dbConnection.query(
+            'SELECT nfe_id FROM price_history WHERE nfe_id = $1 AND product_id = $2',
+            [nfeId, productId],
+        );
         return queryResult.length === 0 ? false : true;
     }
 
