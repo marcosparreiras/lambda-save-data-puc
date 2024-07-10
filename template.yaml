@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  lambda-save-data
+
+  Sample SAM Template for lambda-save-data
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 512
+
+Resources:
+  NFScrappedSNS:
+    Type: AWS::SNS::Topic
+    Properties:
+      FifoTopic: true
+      TopicName: "NFScrappedSNS.fifo"
+
+  NFSaveSQS:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: "NFSaveSQS.fifo"
+      FifoQueue: true
+
+  Subscription:
+    Type: "AWS::SNS::Subscription"
+    Properties:
+      TopicArn: !Ref NFScrappedSNS
+      Endpoint: !GetAtt NFSaveSQS.Arn
+      Protocol: sqs
+      RawMessageDelivery: true
+
+  NFSaveSQSQueuePolicy:
+    Type: "AWS::SQS::QueuePolicy"
+    Properties:
+      Queues:
+        - !Ref NFSaveSQS
+      PolicyDocument:
+        Statement:
+          - Effect: "Allow"
+            Principal: "*"
+            Action:
+              - sqs:SendMessage
+            Resource:
+              - !GetAtt NFSaveSQS.Arn
+            Condition:
+              ArnEquals:
+                "aws:SourceArn": !Ref NFScrappedSNS
+
+  NFSaveFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: save-data/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+      Events:
+        SqsEvento:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt NFSaveSQS.Arn
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - app.ts
+
+Outputs:
+  NFScrappedSNS:
+    Description: "NFScrappedSNS Function ARN"
+    Value: !GetAtt NFScrappedSNS.Arn
