@@ -2,13 +2,14 @@ import { describe } from '@jest/globals';
 import { PostgresConnection } from './pg-connection';
 import { PgSupermarketRepository } from './pg-supermarket-repository';
 import { Supermarket } from '../entities/supermarket';
+import { env } from '../env';
 
 describe('PgSupermarketRepository', () => {
     let pgConnection: PostgresConnection;
     let pgSupermarketRepository: PgSupermarketRepository;
 
     beforeAll(async () => {
-        pgConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
+        pgConnection = new PostgresConnection(env.DB_URL_TEST);
         pgSupermarketRepository = new PgSupermarketRepository(pgConnection);
 
         await pgConnection.query('DELETE FROM price_history', []);

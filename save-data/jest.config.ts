@@ -12,4 +12,5 @@ export default {
     coverageDirectory: 'coverage',
     coverageProvider: 'v8',
     testMatch: ['**/*.spec.ts'],
+    testTimeout: 15000,
 };

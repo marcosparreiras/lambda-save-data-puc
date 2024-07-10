@@ -2,6 +2,7 @@ import { describe } from '@jest/globals';
 import { PostgresConnection, type PgConnection } from './pg-connection';
 import { ProductPrice } from '../entities/product-price';
 import { PgProductPriceRepository } from './pg-product-price-repository';
+import { env } from '../env';
 
 describe('PgProductPriceRepository', () => {
     let dbConnection: PgConnection;
@@ -10,7 +11,7 @@ describe('PgProductPriceRepository', () => {
     const supermarketId = '01';
 
     beforeAll(async () => {
-        dbConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
+        dbConnection = new PostgresConnection(env.DB_URL_TEST);
         pgProductPriceRepository = new PgProductPriceRepository(dbConnection);
 
         await dbConnection.query('DELETE FROM price_history', []);

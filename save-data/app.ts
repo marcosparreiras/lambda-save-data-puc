@@ -13,6 +13,7 @@ import { PostgresConnection, type PgConnection } from './adapters/pg-connection'
 import { GeoLocationGatewayRegistry } from './application/registry/geo-location-getaway-registry';
 import { GeoLocationGetawayStub } from './test-utils/geo-location-gateway-stub';
 import { AppException } from './exception/app-exception';
+import { env } from './env';
 
 export async function lambdaHandler(event: SQSEvent, _context?: Context): Promise<void> {
     const eventRecordsSchema = z.array(
@@ -40,7 +41,7 @@ export async function lambdaHandler(event: SQSEvent, _context?: Context): Promis
         const geoLocationGateway = new GeoLocationGetawayStub();
         GeoLocationGatewayRegistry.getInstance().setGeoLocationGetaway(geoLocationGateway);
 
-        const dbConnection: PgConnection = new PostgresConnection('postgres://admin:admin@localhost:5432/my_db');
+        const dbConnection: PgConnection = new PostgresConnection(env.DB_URL_PRODUCTION);
 
         const supermarketRepository: SupermarketRepository = new PgSupermarketRepository(dbConnection);
         const productRepository: ProductRepository = new PgProductRepository(dbConnection);
