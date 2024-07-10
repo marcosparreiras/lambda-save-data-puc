@@ -43,4 +43,32 @@ describe('PgSupermarketRepository', () => {
             }),
         );
     });
+
+    it('Should be able to find a supermaket by cnpj', async () => {
+        const supermaket = Supermarket.load({
+            cnpj: '0000000',
+            address: 'some-address',
+            name: 'some-name',
+            latitude: 0.0,
+            longitude: 0.0,
+        });
+
+        const result01 = await pgSupermarketRepository.findByCnpj(supermaket.getCnpj());
+        expect(result01).toEqual(null);
+
+        await pgConnection.query(
+            'INSERT INTO supermarkets(cnpj, name, address, latitude, longitude) VALUES($1, $2, $3, $4, $5)',
+            [
+                supermaket.getCnpj(),
+                supermaket.getName(),
+                supermaket.getAddress(),
+                supermaket.getLatitude(),
+                supermaket.getLongitude(),
+            ],
+        );
+
+        const result02 = await pgSupermarketRepository.findByCnpj(supermaket.getCnpj());
+        expect(result02).toBeInstanceOf(Supermarket);
+        expect(result02?.getName()).toEqual(supermaket.getName());
+    });
 });

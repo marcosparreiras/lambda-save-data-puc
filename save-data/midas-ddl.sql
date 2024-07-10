@@ -1,5 +1,3 @@
--- URL: postgresql://admin:y6gCSq5jLqOWKHWknvu4I8UZTK9lRL5z@dpg-cq78iu5ds78s738sn5f0-a.ohio-postgres.render.com/midas
--- PSQL: PGPASSWORD=y6gCSq5jLqOWKHWknvu4I8UZTK9lRL5z psql -h dpg-cq78iu5ds78s738sn5f0-a.ohio-postgres.render.com -U admin midas
 
 CREATE TABLE IF NOT EXISTS supermarkets (
   cnpj TEXT PRIMARY KEY,
