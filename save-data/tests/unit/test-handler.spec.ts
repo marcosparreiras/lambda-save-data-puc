@@ -9,7 +9,7 @@ describe('Unit test for app handler', function () {
                 {
                     messageId: '059f36b4-87a3-44ab-83d2-661975830a7d',
                     receiptHandle: 'AQEBwJnKyrHigUMZj6rYigCgxlaS3SLy0a...',
-                    body: '{"supermarket": "COMERCIAL DAHANA LIMITADA SN 422","cnpj": "00.070.509/0030-45","address": "R GRAO MOGOL, 202, CARMO, 3106200 - BELO HORIZONTE, MG","date": "2024-06-07T12:26:37.000Z","items": [{"code": "154923","name": "LEITE LVIDA PORTO ALEGRE 1L INTEG","price": 105.8,"qty": 20,"unit": "UN"},{"code": "93567","name": "CAFE PO FINO-GRAO 500G PC TRAD","price": 33.98,"qty": 2,"unit": "UN"}]}',
+                    body: '{"id": "31-24/06-00.070.509/0030-45-65-206-000.114.489-133.763.8029", "supermarketName": "COMERCIAL DAHANA LIMITADA SN 422","cnpj": "00.070.509/0030-45","address": "R GRAO MOGOL, 202, CARMO, 3106200 - BELO HORIZONTE, MG","date": "2024-06-07T12:26:37.000Z","items": [{"code": "154923","name": "LEITE LVIDA PORTO ALEGRE 1L INTEG","price": 5.29},{"code": "93567","name": "CAFE PO FINO-GRAO 500G PC TRAD","price": 16.99}]}',
                     attributes: {
                         ApproximateReceiveCount: '1',
                         SentTimestamp: '1545082649183',
