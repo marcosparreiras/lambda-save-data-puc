@@ -12,6 +12,9 @@ git clone https://github.com/marcosparreiras/lambda-save-data-puc.git
 
 3. Rename the `template.yaml.sample` file to `template.yaml` and fill in the `parameters defaults`.
 
+- DB_URL_PRODUCTION
+- GOOGLE_API_KEY
+
 4. CD into `save-data` folder and install the dependencies:
 
 ```bash
