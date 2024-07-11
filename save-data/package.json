@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@types/pg": "^8.11.6",
+        "axios": "^1.7.2",
         "dotenv": "^16.4.5",
         "esbuild": "^0.14.14",
         "pg": "^8.12.0",
