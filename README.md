@@ -15,7 +15,7 @@ git clone https://github.com/marcosparreiras/lambda-save-data-puc.git
 4. CD into `save-data` folder and install the dependencies:
 
 ```bash
-cd ./lambda-save-data-puc/save-date && npm install
+cd ./lambda-save-data-puc/save-data && npm install
 ```
 
 5. Run the tests with:
