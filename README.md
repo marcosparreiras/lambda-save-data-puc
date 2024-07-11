@@ -10,7 +10,7 @@ git clone https://github.com/marcosparreiras/lambda-save-data-puc.git
 
 2. Rename the `./save-data/.env.sample` file to `./save-data/.env` and fill in the required information.
 
-3. Rename the `template.yaml.sample` file to `template.yaml` and fill in the `parameters defaults`.
+3. Rename the `template.yaml.sample` file to `template.yaml` and fill in the `NFSaveFunction Environment Variables`.
 
 - DB_URL_PRODUCTION
 - GOOGLE_API_KEY

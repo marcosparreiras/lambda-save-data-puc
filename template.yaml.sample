@@ -5,22 +5,6 @@ Description: >
 
   Sample SAM Template for lambda-save-data
 
-Parameters:
-  DB_URL_PRODUCTION:
-    Type: String
-    Description: "POSTGRES CONNECTION URL"
-    Default: ""
-
-  DB_URL_TEST:
-    Type: String
-    Description: "POSTGRES CONNECTION URL TEST"
-    Default: "postgres://admin:admin@localhost:5432/my_db"
-
-  GOOGLE_API_KEY:
-    Type: String
-    Description: "GOOGLE API KEY FOR GEOLOCATION SERVICE"
-    Default: ""
-
 Globals:
   Function:
     Timeout: 30
@@ -74,9 +58,9 @@ Resources:
         - x86_64
       Environment:
         Variables:
-          DB_URL_PRODUCTION: !Ref DB_URL_PRODUCTION
-          DB_URL_TEST: !Ref DB_URL_TEST
-          GOOGLE_API_KEY: !Ref GOOGLE_API_KEY
+          DB_URL_PRODUCTION: ""
+          DB_URL_TEST: "postgres://admin:admin@localhost:5432/my_db"
+          GOOGLE_API_KEY: ""
       Events:
         SqsEvento:
           Type: SQS
@@ -94,4 +78,4 @@ Resources:
 Outputs:
   NFScrappedSNS:
     Description: "NFScrappedSNS Function ARN"
-    Value: !GetAtt NFScrappedSNS.Arn
+    Value: !Ref NFScrappedSNS
