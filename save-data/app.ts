@@ -11,9 +11,9 @@ import { PgProductPriceRepository } from './adapters/pg-product-price-repository
 import { PgProductRepository } from './adapters/pg-product-repository';
 import { PostgresConnection, type PgConnection } from './adapters/pg-connection';
 import { GeoLocationGatewayRegistry } from './application/registry/geo-location-getaway-registry';
-import { GeoLocationGetawayStub } from './test-utils/geo-location-gateway-stub';
 import { AppException } from './exception/app-exception';
 import { env } from './env';
+import { GoogleGeolocationGateway } from './adapters/google-geo-location-gateway';
 
 export async function lambdaHandler(event: SQSEvent, _context?: Context): Promise<void> {
     const eventRecordsSchema = z.array(
@@ -38,7 +38,7 @@ export async function lambdaHandler(event: SQSEvent, _context?: Context): Promis
     try {
         const records = eventRecordsSchema.parse(event.Records.map((record) => ({ body: JSON.parse(record.body) })));
 
-        const geoLocationGateway = new GeoLocationGetawayStub();
+        const geoLocationGateway = new GoogleGeolocationGateway();
         GeoLocationGatewayRegistry.getInstance().setGeoLocationGetaway(geoLocationGateway);
 
         const dbConnection: PgConnection = new PostgresConnection(env.DB_URL_PRODUCTION);

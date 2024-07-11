@@ -10,7 +10,7 @@ sam deploy --guided
 ## Invoke locally
 
 ```bash
-sam local invoke NFSaveData --event events/event.json
+sam local invoke NFSaveFunction --event events/event.json
 ```
 
 ## Delete
