@@ -12,8 +12,8 @@ Parameters:
      Default: ""
   DB_URL_TEST:
     Type: String
-    Description: "POSTGRES CONNECTION URL"
-     Default: ""
+    Description: "POSTGRES CONNECTION URL TEST"
+     Default: "postgres://admin:admin@localhost:5432/my_db"
   GOOGLE_API_KEY:
     Type: String
     Description: "GOOGLE API KEY FOR GEOLOCATION SERVICE"
