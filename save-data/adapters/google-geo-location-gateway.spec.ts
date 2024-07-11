@@ -8,11 +8,7 @@ describe('GoogleGeoLocationGetaway', () => {
             'R GRAO MOGOL, 202, CARMO, 3106200 - BELO HORIZONTE, MG',
         );
 
-        expect(response).toBe(
-            expect.objectContaining({
-                latitude: -19.9417278,
-                longitude: -43.9327621,
-            }),
-        );
+        expect(response.latitude).toBe(-19.9417278);
+        expect(response.longitude).toBe(-43.9327621);
     });
 });
